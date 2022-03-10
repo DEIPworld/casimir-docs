@@ -1,0 +1,3 @@
+[submodule "documented-repos"]
+	path = documented-repos
+	url = git@github.com:DEIPworld/casimir-frontend.git
