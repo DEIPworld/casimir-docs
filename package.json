@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "precommit": "lint-staged",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "parse:jsdoc": "node scripts/parseJsDocs.js",
     "lint": "vue-cli-service lint",
-    "prepare": "husky install"
+    "precommit": "lint-staged",
+    "prepare": "husky install",
+    "submodules:init": "git submodule update --init --recursive",
+    "submodules:update": "git submodule update --remote --recursive"
   },
   "dependencies": {
     "core-js": "^3.8.3",
