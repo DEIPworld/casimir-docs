@@ -2,3 +2,4 @@ node_modules
 *-debug.log*
 /.idea
 /.vscode
+/src/.docs

@@ -6,7 +6,7 @@
     "precommit": "lint-staged",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "parse:jsdoc": "node ./scripts/parseDocs.js",
+    "parse:jsdoc": "node scripts/parseJsDocs.js",
     "lint": "vue-cli-service lint",
     "prepare": "husky install"
   },
@@ -15,7 +15,6 @@
     "lint-staged": "^12.3.5",
     "pinia": "^2.0.11",
     "vue": "^3.2.13",
-    "vue-docgen-api": "^4.44.18",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
@@ -37,6 +36,7 @@
     "jsdoc": "^3.6.10",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "vue-docgen-api": "^4.44.18",
     "shelljs": "^0.8.5",
     "typescript": "^4.6.2"
   },

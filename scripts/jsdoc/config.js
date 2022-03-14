@@ -5,8 +5,8 @@ module.exports = {
   plugins: [
     './plugins/typescript',
     './plugins/package-module',
-    './plugins/ts-import',
-    'plugins/markdown'
+    './plugins/ts-import'
+    // 'plugins/markdown'
   ],
   source: {
     includePattern: '\\.(js|ts)$'
