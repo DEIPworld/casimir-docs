@@ -1,33 +1,47 @@
 /* eslint-disable */
 const shell = require('shelljs');
-const fs = require('fs-extra');
 const path = require('path');
+const log = require("npmlog");
 /* eslint-enable */
 
-const { getFrontendPackages, rootPath, getInputFiles } = require('./helpers');
+const {
+  rootPath, getFrontendPackages, getInputFiles, saveJson, getPkgInfo
+} = require('./helpers');
 
-const cleanDoclet = (doclet) => {
-  const {
-    comment,
-    ___id,
-    ___s,
-    meta,
-    ...data
-  } = doclet;
-  return data;
-};
+const packages = getFrontendPackages().casimir;
 
-const inputs = getFrontendPackages().casimir.reduce((acc, pkg) => [
-  ...acc,
-  ...getInputFiles(pkg, '{js,ts}')
-], []);
-
-const jsdocCommand = `jsdoc -X -c ${path.join(rootPath, 'scripts', 'jsdoc', 'config.js')} ${inputs.join(' ')}`;
-const docletsStd = shell.exec(jsdocCommand, { silent: true }).stdout;
-
-const doclets = JSON.parse(docletsStd)
+const transformDoclets = (doclets) => doclets
   .filter((doclet) => !doclet.undocumented)
   .filter((doclet) => doclet.kind !== 'package')
-  .map((doclet) => cleanDoclet(doclet));
+  .map((doclet) => {
+    const {
+      comment, ___id, ___s, meta,
+      ...docletData
+    } = doclet;
 
-fs.outputJsonSync(path.join('src', '.docs', 'jsdocs.json'), doclets, { spaces: 2 });
+    const { name: packageName } = getPkgInfo(meta.path);
+
+    return {
+      ...docletData,
+      package: packageName
+    };
+  });
+
+const getDoclets = (inputs) => {
+  const jsdocCommand = `jsdoc -X -c ${path.join(rootPath, 'scripts', 'jsdoc', 'config.js')} ${inputs.join(' ')}`;
+  const { stdout: rawData } = shell.exec(jsdocCommand, { silent: true });
+  return JSON.parse(rawData);
+};
+
+const parsePackagesJsdoc = () => {
+  console.info('Packages jsdoc parsing');
+
+  const inputs = packages.reduce((acc, pkg) => [...acc, ...getInputFiles(pkg, '{js,ts}')], []);
+  const doclets = transformDoclets(getDoclets(inputs));
+
+  saveJson('jsdoc', doclets);
+
+  console.info('Done');
+};
+
+parsePackagesJsdoc();

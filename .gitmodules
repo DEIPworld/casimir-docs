@@ -1,6 +1,6 @@
-[submodule "vendor/casimir-frontend"]
-	path = vendor/casimir-frontend
+[submodule "repos/casimir-frontend"]
+	path = repos/casimir-frontend
 	url = git@github.com:DEIPworld/casimir-frontend.git
-[submodule "vendor/casimir-backend"]
-	path = vendor/casimir-backend
+[submodule "repos/casimir-backend"]
+	path = repos/casimir-backend
 	url = git@github.com:DEIPworld/casimir-backend.git

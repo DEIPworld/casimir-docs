@@ -2,9 +2,17 @@
 const path = require('path');
 const fs = require('fs-extra');
 const glob = require('glob');
+const findRoot = require('find-root');
 /* eslint-enable */
 
 const rootPath = path.resolve();
+
+const repos = glob
+  .sync(path.join(rootPath, 'repos', '*'))
+  .reduce((acc, p) => ({
+    ...acc,
+    ...{ [path.basename(p)]: p }
+  }), {});
 
 const frontendPath = path.join(rootPath, 'vendor', 'casimir-frontend');
 
@@ -35,8 +43,32 @@ const getInputFiles = (pkg, ext) => {
   return inputs;
 };
 
+const getPkgInfo = (filePath) => {
+  const pkgRoot = findRoot(filePath);
+  return fs.readJsonSync(path.join(pkgRoot, 'package.json'));
+};
+
+const getPkgReadme = (filePath) => {
+  const pkgRoot = findRoot(filePath);
+  const readmePath = path.join(pkgRoot, 'README.md');
+
+  if (fs.pathExistsSync(readmePath)) {
+    return fs.readFileSync(readmePath, 'utf8');
+  }
+
+  return '';
+};
+
+const saveJson = (name, json) => {
+  fs.outputJsonSync(path.join('src', '.docs', `${name}.json`), json, { spaces: 2 });
+};
+
 module.exports = {
   rootPath,
+  repos,
   getFrontendPackages,
-  getInputFiles
+  getInputFiles,
+  getPkgInfo,
+  getPkgReadme,
+  saveJson
 };

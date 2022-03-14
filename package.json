@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "npm run parse:docs && vue-cli-service serve",
+    "build": "npm run parse:docs && vue-cli-service build",
+    "bootstrap": "node ./scripts/bootstrap.js",
+    "bootstrap:init": "node ./scripts/bootstrap.js --init",
+    "parse:packages": "node scripts/parsePackages.js",
+    "parse:components": "node scripts/parseComponents.js",
     "parse:jsdoc": "node scripts/parseJsDocs.js",
+    "parse:docs": "concurrently \"npm:parse:packages\" \"npm:parse:components\" \"npm:parse:jsdoc\" --c blueBright,cyan,magenta",
     "lint": "vue-cli-service lint",
-    "precommit": "lint-staged",
+    "precommit": "",
     "prepare": "husky install",
     "submodules:init": "git submodule update --init --recursive",
     "submodules:update": "git submodule update --remote --recursive"
@@ -27,6 +32,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-airbnb": "^6.0.0",
+    "concurrently": "^7.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-vue": "^8.0.3",
@@ -36,11 +42,12 @@
     "glob": "^7.2.0",
     "husky": "^7.0.4",
     "jsdoc": "^3.6.10",
+    "npmlog": "^6.0.1",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
-    "vue-docgen-api": "^4.44.18",
     "shelljs": "^0.8.5",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.2",
+    "vue-docgen-api": "^4.44.18"
   },
   "lint-staged": {
     "*.{js}": "eslint --fix"
