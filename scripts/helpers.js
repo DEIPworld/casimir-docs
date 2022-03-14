@@ -6,7 +6,7 @@ const glob = require('glob');
 
 const rootPath = path.resolve();
 
-const frontendPath = path.join(rootPath, 'documented-repos', 'casimir-frontend');
+const frontendPath = path.join(rootPath, 'vendor', 'casimir-frontend');
 
 const getFrontendPackages = () => fs.readJsonSync(path.join(frontendPath, 'lerna.json')).packages
   .reduce((acc, pattern) => {
