@@ -12,6 +12,7 @@ const cleanDoclet = (doclet) => {
     comment,
     ___id,
     ___s,
+    meta,
     ...data
   } = doclet;
   return data;
@@ -21,14 +22,16 @@ const rootPath = path.resolve();
 
 const casimirFrontendPath = path.join(rootPath, 'documented-repos', 'casimir-frontend');
 
-const frontendPackages = fs.readJsonSync(path.join(casimirFrontendPath, 'lerna.json')).packages
+const frontendPackages = fs.readJsonSync(path.join(casimirFrontendPath, 'lerna.json'))
+  .packages
+  .filter((p) => p.includes('casimir')) // temp solution
   .reduce((acc, pattern) => [
     ...acc,
     ...glob.sync(path.join(casimirFrontendPath, pattern), { absolute: true })
   ], []);
 
 const packages = [
-  ...frontendPackages
+  ...frontendPackages.filter((p) => p.includes('casimir'))
 ];
 
 let inputs = [];
@@ -50,7 +53,7 @@ for (const pkg of packages) {
   if (hasLib && !hasSrc) inputs = inputs.concat(getFiles(libPath));
 }
 
-const jsdocCommand = `jsdoc -X -c ${path.join(rootPath, 'jsdoc', 'config.js')} ${inputs.join(' ')}`;
+const jsdocCommand = `jsdoc -X -c ${path.join(rootPath, 'scripts', 'jsdoc', 'config.js')} ${inputs.join(' ')}`;
 const docletsStd = shell.exec(jsdocCommand, { silent: true }).stdout;
 
 const doclets = JSON.parse(docletsStd)
@@ -58,4 +61,4 @@ const doclets = JSON.parse(docletsStd)
   .filter((doclet) => doclet.kind !== 'package')
   .map((doclet) => cleanDoclet(doclet));
 
-console.info(doclets);
+fs.outputJsonSync('doclets.json', doclets);

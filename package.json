@@ -13,7 +13,9 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "lint-staged": "^12.3.5",
+    "pinia": "^2.0.11",
     "vue": "^3.2.13",
+    "vue-docgen-api": "^4.44.18",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

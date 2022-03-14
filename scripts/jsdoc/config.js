@@ -9,6 +9,6 @@ module.exports = {
     'plugins/markdown'
   ],
   source: {
-    includePattern: '\\.(jsx|js|ts|tsx)$'
+    includePattern: '\\.(js|ts)$'
   }
 };
