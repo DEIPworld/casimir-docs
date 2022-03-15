@@ -1,0 +1,15 @@
+.c-navigation-drawer {
+  padding: 0 0 0 var(--c-screen-shift);
+  width: calc(var(--c-screen-shift) + var(--c-navigation-drawer-width));
+  position: fixed;
+  left: 0;
+  top: var(--c-app-bar-height);
+  bottom: 0;
+  border-right: 1px solid var(--c-border-color);
+  z-index: 100;
+  background: #fff;
+
+  &__inner {
+    padding: 32px;
+  }
+}

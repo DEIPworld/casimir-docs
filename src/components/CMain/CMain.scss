@@ -1,0 +1,16 @@
+.c-main {
+  padding: 0 var(--c-screen-shift);
+  min-height: 100vh;
+
+  &__inner {
+    padding: 64px;
+  }
+
+  .c-navigation-drawer ~ & {
+    padding-left: calc(var(--c-screen-shift) + var(--c-navigation-drawer-width));
+  }
+
+  .c-app-bar ~ & {
+    padding-top: var(--c-app-bar-height);
+  }
+}
