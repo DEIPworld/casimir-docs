@@ -33,15 +33,20 @@ const getDoclets = (inputs) => {
   return JSON.parse(rawData);
 };
 
-const parsePackagesJsdoc = () => {
-  console.info('Packages jsdoc parsing');
+(async () => {
+  /* eslint-disable */
+  const { default: ora } = await import('ora');
+  /* eslint-enable */
+
+  const logger = ora();
+
+  logger.start('Parsing JsDoc documentation');
 
   const inputs = packages.reduce((acc, pkg) => [...acc, ...getInputFiles(pkg, '{js,ts}')], []);
   const doclets = transformDoclets(getDoclets(inputs));
 
   saveJson('jsdoc', doclets);
 
-  console.info('Done');
-};
-
-parsePackagesJsdoc();
+  logger.succeed();
+  logger.stop();
+})();
