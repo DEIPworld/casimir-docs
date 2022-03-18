@@ -1,6 +1,5 @@
 /* eslint-disable */
 const vueDocs = require('vue-docgen-api');
-const log = require('npmlog');
 /* eslint-enable */
 
 const {
@@ -12,24 +11,26 @@ const {
 
 const packages = getFrontendPackages().casimir;
 
-async function parsePackagesComponents() {
-  console.info('Packages components parsing');
+(async () => {
+  /* eslint-disable */
+  const { default: ora } = await import('ora');
+  /* eslint-enable */
+
+  const logger = ora();
+
+  logger.start('Parsing components documentation');
 
   const inputs = packages.reduce((acc, pkg) => [...acc, ...getInputFiles(pkg, '{vue,jsx,tsx}')], []);
 
   const promises = inputs.map((file) => async () => {
     const data = await vueDocs.parse(file);
-    return {
-      ...data,
-      package: getPkgInfo(file).name
-    };
+    return { ...data, package: getPkgInfo(file).name };
   });
 
   const components = await Promise.all(promises.map((fn) => fn()));
 
   saveJson('jsdoc', components);
 
-  console.info('Done');
-}
-
-parsePackagesComponents();
+  logger.succeed();
+  logger.stop();
+})();

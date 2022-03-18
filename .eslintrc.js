@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    './vendor/casimir-frontend/packages/common/eslint-config'
+    '@deip/eslint-config',
+    '@deip/eslint-config/vue'
   ]
 };

@@ -1,6 +1,0 @@
-[submodule "repos/casimir-frontend"]
-	path = repos/casimir-frontend
-	url = git@github.com:DEIPworld/casimir-frontend.git
-[submodule "repos/casimir-backend"]
-	path = repos/casimir-backend
-	url = git@github.com:DEIPworld/casimir-backend.git

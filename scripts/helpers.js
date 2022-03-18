@@ -6,15 +6,20 @@ const findRoot = require('find-root');
 /* eslint-enable */
 
 const rootPath = path.resolve();
+const reposPath = path.join(rootPath, '.repos');
 
-const repos = glob
-  .sync(path.join(rootPath, 'repos', '*'))
-  .reduce((acc, p) => ({
-    ...acc,
-    ...{ [path.basename(p)]: p }
-  }), {});
+const repositories = {
+  'casimir-frontend': {
+    archive: 'https://github.com/DEIPworld/casimir-frontend/archive/refs/heads/master.zip',
+    destination: path.join(reposPath, 'casimir-frontend')
+  },
+  'casimir-backend': {
+    archive: 'https://github.com/DEIPworld/casimir-backend/archive/refs/heads/master.zip',
+    destination: path.join(reposPath, 'casimir-backend')
+  }
+};
 
-const frontendPath = path.join(rootPath, 'vendor', 'casimir-frontend');
+const frontendPath = repositories['casimir-frontend'];
 
 const getFrontendPackages = () => fs.readJsonSync(path.join(frontendPath, 'lerna.json')).packages
   .reduce((acc, pattern) => {
@@ -65,10 +70,13 @@ const saveJson = (name, json) => {
 
 module.exports = {
   rootPath,
-  repos,
+  reposPath,
+
   getFrontendPackages,
   getInputFiles,
   getPkgInfo,
   getPkgReadme,
-  saveJson
+  saveJson,
+
+  repositories
 };
