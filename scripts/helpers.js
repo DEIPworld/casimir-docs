@@ -19,7 +19,7 @@ const repositories = {
   }
 };
 
-const frontendPath = repositories['casimir-frontend'];
+const frontendPath = repositories['casimir-frontend'].destination;
 
 const getFrontendPackages = () => fs.readJsonSync(path.join(frontendPath, 'lerna.json')).packages
   .reduce((acc, pattern) => {

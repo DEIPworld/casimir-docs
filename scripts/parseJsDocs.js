@@ -1,7 +1,6 @@
 /* eslint-disable */
 const shell = require('shelljs');
 const path = require('path');
-const log = require("npmlog");
 /* eslint-enable */
 
 const {
