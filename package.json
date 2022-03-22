@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run parse:docs && vue-cli-service serve",
-    "build": "npm run parse:docs && vue-cli-service build",
+    "serve": "npm run parse && vue-cli-service serve",
+    "build": "npm run parse && vue-cli-service build",
     "bootstrap": "npm run bootstrap:download && npm run bootstrap:install",
     "bootstrap:download": "node scripts/downloadRepos.js",
     "bootstrap:install": "node scripts/installRepos.js",
