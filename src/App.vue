@@ -2,12 +2,12 @@
   <div class="app">
     <CAppBar>
       <div>Logo</div>
-      <div class="spacer"></div>
+      <div class="spacer" />
       <div>[nav]</div>
     </CAppBar>
 
     <CNavigationDrawer>
-      [nav]
+      <CNavigationTree :packages="packages" />
     </CNavigationDrawer>
 
     <CMain>
@@ -21,6 +21,8 @@
   import { CAppBar } from '@/components/CAppBar';
   import { CNavigationDrawer } from '@/components/CNavigationDrawer';
   import { CMain } from '@/components/CMain';
+  import { CNavigationTree } from '@/components/CPackagesList';
+  import { usePackagesData } from '@/stores/packages.js';
 
   export default {
     name: 'HomeView',
@@ -29,8 +31,17 @@
       CApp,
       CAppBar,
       CNavigationDrawer,
+      CNavigationTree,
       CMain
     },
+    setup() {
+      const data = usePackagesData();
+      data.fetchAndSetPackage();
+      const { packages } = data;
+      return {
+        packages
+      };
+    }
   };
 </script>
 
@@ -55,7 +66,7 @@
     --c-screen-max-width: 1400px;
     --c-screen-shift: calc((100vw - var(--c-screen-max-width)) / 2);
 
-    --c-navigation-drawer-width: 280px;
+    --c-navigation-drawer-width: 380px;
     --c-app-bar-height: 64px;
 
     --c-border-color: #{rgba(#000, .12)};
@@ -64,4 +75,5 @@
   .spacer {
     flex: 1;
   }
+
 </style>

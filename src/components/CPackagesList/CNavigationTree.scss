@@ -1,0 +1,16 @@
+.pack-list {
+  padding: 0;
+  &__name {
+    border-bottom: 1px solid lightgray;
+  }
+  &__entities {
+    padding: 0;
+    &-item {
+      padding-left: 16px;
+      &__content {
+        padding-left: 16px;
+        list-style-type: none;
+      }
+    }
+  }
+}

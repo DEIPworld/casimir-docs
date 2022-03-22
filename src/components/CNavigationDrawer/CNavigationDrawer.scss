@@ -8,6 +8,7 @@
   border-right: 1px solid var(--c-border-color);
   z-index: 100;
   background: #fff;
+  overflow-x: scroll;
 
   &__inner {
     padding: 32px;
