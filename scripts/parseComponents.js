@@ -29,7 +29,7 @@ const packages = getFrontendPackages().casimir;
 
   const components = await Promise.all(promises.map((fn) => fn()));
 
-  saveJson('jsdoc', components);
+  saveJson('components', components);
 
   logger.succeed();
   logger.stop();
