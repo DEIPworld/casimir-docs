@@ -1,4 +1,4 @@
-import { CNavigationTree } from './CNavigationTree.jsx';
+import { CNavigationTree } from './CNavigationTree';
 import './CNavigationTree.scss';
 
 export default CNavigationTree;

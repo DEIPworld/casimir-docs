@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p v-for="i of Array(15).fill()">
-      {{lipsum}}
+    <p v-for="i of Array(15).fill()" :key="i">
+      {{ lipsum }}
     </p>
   </div>
 </template>
@@ -20,7 +20,7 @@
           release of Letraset sheets containing Lorem Ipsum passages, and more recently with
           desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
           `
-      }
-    },
+      };
+    }
   };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <CApp class="app">
     <CAppBar>
       <div>Logo</div>
       <div class="spacer" />
@@ -13,7 +13,7 @@
     <CMain>
       <RouterView />
     </CMain>
-  </div>
+  </CApp>
 </template>
 
 <script>
@@ -21,8 +21,8 @@
   import { CAppBar } from '@/components/CAppBar';
   import { CNavigationDrawer } from '@/components/CNavigationDrawer';
   import { CMain } from '@/components/CMain';
-  import { CNavigationTree } from '@/components/CPackagesList';
-  import { usePackagesData } from '@/stores/packages.js';
+  import { CNavigationTree } from '@/components/CNavigationTree';
+  import { usePackagesData } from '@/stores/packages';
 
   export default {
     name: 'HomeView',
