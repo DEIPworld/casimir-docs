@@ -4,15 +4,17 @@ module.exports = {
     '@deip/eslint-config',
     '@deip/eslint-config/vue'
   ],
-  rules: { // temp
-    'import/extensions': [
-      'error',
-      'always',
-      {
-        js: 'never',
-        jsx: 'never',
-        vue: 'never'
+  settings: {
+    'import/resolver': {
+      // alias: {
+      //   map: [
+      //     ['@', './src']
+      //   ],
+      //   extensions: ['.js', '.jsx', '.vue']
+      // },
+      webpack: {
+        config: require.resolve('@vue/cli-service/webpack.config.js')
       }
-    ]
+    }
   }
 };
