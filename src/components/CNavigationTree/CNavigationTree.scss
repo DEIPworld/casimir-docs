@@ -5,12 +5,11 @@
   }
   &__entities {
     padding: 0;
+    margin-bottom: 8px;
+    list-style-type: none;
     &-item {
       padding-left: 16px;
-      &__content {
-        padding-left: 16px;
-        list-style-type: none;
-      }
+      list-style-type: none;
     }
   }
 }
