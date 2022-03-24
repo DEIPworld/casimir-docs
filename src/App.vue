@@ -1,13 +1,17 @@
 <template>
   <CApp class="app">
     <CAppBar>
-      <div>Logo</div>
+      <div>
+        <router-link to="/">
+          Logo
+        </router-link>
+      </div>
       <div class="spacer" />
       <div>[nav]</div>
     </CAppBar>
 
     <CNavigationDrawer>
-      <CNavigationTree :packages="packages" />
+      <CNavigationTree />
     </CNavigationDrawer>
 
     <CMain>
@@ -22,7 +26,6 @@
   import { CNavigationDrawer } from '@/components/CNavigationDrawer';
   import { CMain } from '@/components/CMain';
   import { CNavigationTree } from '@/components/CNavigationTree';
-  import { usePackagesData } from '@/stores/packages';
 
   export default {
     name: 'HomeView',
@@ -33,14 +36,6 @@
       CNavigationDrawer,
       CNavigationTree,
       CMain
-    },
-    setup() {
-      const data = usePackagesData();
-      data.fetchAndSetPackage();
-      const { packages } = data;
-      return {
-        packages
-      };
     }
   };
 </script>
