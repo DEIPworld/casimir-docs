@@ -19,16 +19,16 @@ export const CNavigationTree = {
         ...childProps
       }
     });
-    const generateClasses = (moduleName) => (
+    const generateClasses = (moduleName) => (getClassesByPackage(moduleName).length ? (
       <div class="pack-list__entities">
-        <div>{getClassesByPackage(moduleName).length ? 'CLASSES' : ''}</div>
+        <div>CLASSES</div>
           {getClassesByPackage(moduleName).map((el) => (
           <div className="pack-list__entities-item">
             <router-link to={
               createRoute(
-                moduleName.slice(6),
+                moduleName,
                 'class',
-                { [el.kind]: el.name || el.displayName, package: el.package.slice(6) }
+                { class: el.name, package: el.package }
               ) }>
                {el.name}
             </router-link>
@@ -36,18 +36,18 @@ export const CNavigationTree = {
           ))
         }
       </div>
-    );
+    ) : null);
 
-    const generateComponents = (moduleName) => (
+    const generateComponents = (moduleName) => (getComponentsByPackage(moduleName).length ? (
       <div class="pack-list__entities">
-        <div>{getComponentsByPackage(moduleName).length ? 'COMPONENTS' : ''}</div>
+        <div>COMPONENTS</div>
           {getComponentsByPackage(moduleName).map((el) => (
             <div className="pack-list__entities-item">
               <router-link to={
                 createRoute(
-                  moduleName.slice(6),
+                  moduleName,
                   'component',
-                  { component: el.displayName, package: el.package.slice(6) }
+                  { component: el.displayName, package: el.package }
                 ) }>
                 {el.displayName}
               </router-link>
@@ -55,43 +55,30 @@ export const CNavigationTree = {
           ))
         }
       </div>
-    );
-    const generateMethods = (moduleName) => {
-      if (getMethodsByPackage(moduleName).length) {
-        return (
-          <div className="pack-list__entities">
-            <router-link to={createRoute(moduleName.slice(6), 'functions',)}>
-              METHODS
-            </router-link>
-          </div>
-        );
-      }
-      return false;
-    };
-    const generateConstants = (moduleName) => {
-      if (getConstantsByPackage(moduleName).length) {
-        return (
+    ) : null);
+    const generateMethods = (moduleName) => (getMethodsByPackage(moduleName).length ? (
+      (
         <div className="pack-list__entities">
-          <router-link to={ createRoute(moduleName.slice(6), 'constants') }>
-          CONSTANTS
+          <router-link to={createRoute(moduleName, 'functions')}>
+            METHODS
           </router-link>
         </div>
-        );
-      }
-      return false;
-    };
-    const generateTypes = (moduleName) => {
-      if (getTypesByPackage(moduleName).length) {
-        return (
-        <div className="pack-list__entities">
-          <router-link to={ createRoute(moduleName.slice(6), 'typedefs') }>
-            TYPES
-          </router-link>
-        </div>
-        );
-      }
-      return false;
-    };
+      )
+    ) : null);
+    const generateConstants = (moduleName) => (getConstantsByPackage(moduleName).length ? (
+      <div className="pack-list__entities">
+        <router-link to={ createRoute(moduleName, 'constants') }>
+        CONSTANTS
+        </router-link>
+      </div>
+    ) : null);
+    const generateTypes = (moduleName) => (getTypesByPackage(moduleName).length ? (
+      <div className="pack-list__entities">
+        <router-link to={ createRoute(moduleName, 'typedefs') }>
+          TYPES
+        </router-link>
+      </div>
+    ) : null);
 
     const generateList = () => packages.map((pack) => (
       <div class="pack-list">
