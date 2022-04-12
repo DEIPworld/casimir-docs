@@ -19,6 +19,7 @@ export const usePackagesData = defineStore('packages', {
       collectionList(state.components, { package: pack })
     ),
     getClassData: (state) => (params) => collectionOne(state.jsdocs, params),
-    getComponentData: (state) => (params) => collectionOne(state.components, params)
+    getComponentData: (state) => (params) => collectionOne(state.components, params),
+    getConstantsData: (state) => (params) => collectionOne(state.jsdocs, params)
   }
 });
