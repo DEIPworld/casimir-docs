@@ -29,7 +29,7 @@ export const CNavigationTree = {
                 moduleName,
                 'class',
                 { class: el.name, package: el.package }
-              ) }>
+              )}>
                {el.name}
             </router-link>
           </div>
@@ -57,13 +57,11 @@ export const CNavigationTree = {
       </div>
     ) : null);
     const generateMethods = (moduleName) => (getMethodsByPackage(moduleName).length ? (
-      (
-        <div className="pack-list__entities">
-          <router-link to={createRoute(moduleName, 'functions')}>
-            METHODS
-          </router-link>
-        </div>
-      )
+      <div className="pack-list__entities">
+        <router-link to={createRoute(moduleName, 'functions')}>
+          METHODS
+        </router-link>
+      </div>
     ) : null);
     const generateConstants = (moduleName) => (getConstantsByPackage(moduleName).length ? (
       <div className="pack-list__entities">
