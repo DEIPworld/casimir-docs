@@ -7,11 +7,21 @@ export const ClassDetails = {
   setup() {
     const route = useRoute();
     const store = usePackagesData();
-    const { getClassData } = store;
+    const { getClassData, getMethodsByMemberOf, getMembersByClassName } = store;
     let contentData = getClassData({ name: route.params.class });
+    let descendantMethods = getMethodsByMemberOf(contentData.longname);
+    let descendantMembers = getMembersByClassName(
+      { name: route.params.package, class: route.params.class, kind: 'member' }
+    );
 
     watch(route, () => {
       contentData = getClassData({ name: route.params.class });
+      if (contentData) {
+        descendantMethods = getMethodsByMemberOf(contentData.longname);
+        descendantMembers = getMembersByClassName(
+          { memberof: contentData.longname, kind: 'member' }
+        );
+      }
     });
     const generateTableRow = (rowData) => rowData.map((elem) => (
       <tr>
@@ -45,6 +55,25 @@ export const ClassDetails = {
     const generateMemberOf = (memberof) => (memberof ? (
         <h4>Member of: { memberof }</h4>
     ) : null);
+    const generateListItem = (list) => list.map((item) => (item.name ? (
+      <li>{item.name}</li>
+    ) : null));
+    const generateMethodsList = () => (descendantMethods.length ? (
+      <div>
+        <h3>Class Methods:</h3>
+        <ul>
+          {generateListItem(descendantMethods)}
+        </ul>
+      </div>
+    ) : null);
+    const generateMembersList = () => (descendantMembers.length ? (
+    <div>
+      <h3>Class Members:</h3>
+      <ul>
+        {generateListItem(descendantMembers)}
+      </ul>
+    </div>
+    ) : null);
     const generateClassContent = () => (
       <div>
         <h3 className="feature-type">
@@ -57,6 +86,8 @@ export const ClassDetails = {
         { generateTables(contentData.params) }
         { generateAugments(contentData.augments) }
         <h2>{ contentData.package }</h2>
+        { generateMethodsList() }
+        { generateMembersList() }
       </div>
     );
     return () => (

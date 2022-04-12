@@ -18,6 +18,10 @@ export const usePackagesData = defineStore('packages', {
     getComponentsByPackage: (state) => (pack) => (
       collectionList(state.components, { package: pack })
     ),
+    getMembersByClassName: (state) => (params) => collectionList(state.jsdocs, params),
+    getMethodsWithError: (state) => (pack) => collectionList(state.jsdocs, { package: pack }).filter((elem) => (!elem.memberof) && elem.kind === 'function'),
+    getInstanceByModuleName: (state) => (pack) => collectionList(state.jsdocs, { package: pack }),
+    getMethodsByMemberOf: (state) => (memberof) => collectionList(state.jsdocs, { memberof, kind: 'function' }),
     getClassData: (state) => (params) => collectionOne(state.jsdocs, params),
     getComponentData: (state) => (params) => collectionOne(state.components, params),
     getConstantsData: (state) => (params) => collectionOne(state.jsdocs, params)

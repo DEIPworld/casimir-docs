@@ -7,10 +7,11 @@ export const FunctionsList = {
   setup() {
     const route = useRoute();
     const store = usePackagesData();
-    const { getMethodsByPackage } = store;
-    let contentData = getMethodsByPackage(route.params.package);
+    const { getMethodsByMemberOf, getMethodsWithError } = store;
+    const errorList = getMethodsWithError(route.params.package);
+    let contentData = getMethodsByMemberOf(`module:${route.params.package}`);
     watch(route, () => {
-      contentData = getMethodsByPackage(route.params.package);
+      contentData = getMethodsByMemberOf(`module:${route.params.package}`);
     });
     const generateList = () => (contentData.length ? contentData.map((elem) => (
       <tr>
@@ -28,7 +29,12 @@ export const FunctionsList = {
           </tr>
           { generateList() }
         </table>
-
+        { errorList ? errorList.map((elem) => (
+          <div className={'error'}>{
+            `${elem.kind} ${elem.name} has no memberof field or its value is empty, package name: ${elem.package}!!!!`
+          }</div>
+        )) : null
+        }
         <h2>{ route.params.package }</h2>
       </div>
     );
