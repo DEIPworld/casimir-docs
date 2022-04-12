@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouterView } from 'vue-router';
 import ConstantDetails from '../views/ConstantDetails';
 import HomeView from '../views/HomeView';
-import ComponentDetails from '../views/ComponentDetails';
+import { ComponentDetails } from '../views/ComponentDetails';
 import { ClassDetails } from '../views/ClassDetails';
 import FunctionDetails from '../views/FunctionDetails';
 import NotFound from '../views/NotFound';
