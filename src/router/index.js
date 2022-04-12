@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory, RouterView } from 'vue-router';
-import ConstantDetails from '../views/ConstantDetails';
 import HomeView from '../views/HomeView';
+import { ConstantsList } from '../views/ConstantsList';
 import { ComponentDetails } from '../views/ComponentDetails';
 import { ClassDetails } from '../views/ClassDetails';
-import FunctionDetails from '../views/FunctionDetails';
+import { FunctionsList } from '../views/FunctionsList';
+import { TypeDefsList } from '../views/TypeDefsList';
 import NotFound from '../views/NotFound';
-import TypeDefsDetails from '../views/TypeDefsDetails';
 
 const routes = [
   {
@@ -22,17 +22,17 @@ const routes = [
       {
         path: 'constants',
         name: 'package.constants',
-        component: ConstantDetails
+        component: ConstantsList
       },
       {
         path: 'functions',
         name: 'package.functions',
-        component: FunctionDetails
+        component: FunctionsList
       },
       {
         path: 'typedefs',
         name: 'package.typedefs',
-        component: TypeDefsDetails
+        component: TypeDefsList
       },
       {
         path: 'components/:component',
