@@ -1,5 +1,3 @@
-import { CAppBar } from './CAppBar';
 import './CAppBar.scss';
 
-export default CAppBar;
-export { CAppBar };
+export { CAppBar } from './CAppBar';

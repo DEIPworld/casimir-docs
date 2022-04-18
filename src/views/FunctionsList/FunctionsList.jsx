@@ -1,40 +1,47 @@
 import { useRoute } from 'vue-router';
 import { watch } from 'vue';
 import { usePackagesData } from '@/stores/packages';
+import { DisplayMethod } from '@/components/DisplayMethod';
 
 export const FunctionsList = {
   name: 'FunctionsList',
   setup() {
     const route = useRoute();
-    const store = usePackagesData();
-    const { getMethodsByMemberOf, getMethodsWithError } = store;
+    const { getMethodsByMemberOf, getMethodsWithError } = usePackagesData();
+
     const errorList = getMethodsWithError(route.params.package);
-    let contentData = getMethodsByMemberOf(`module:${route.params.package}`);
+    let content = getMethodsByMemberOf(`module:${route.params.package}`);
+
     watch(route, () => {
-      contentData = getMethodsByMemberOf(`module:${route.params.package}`);
+      content = getMethodsByMemberOf(`module:${route.params.package}`);
     });
-    const generateList = () => (contentData.length ? contentData.map((elem) => (
-      <tr>
-        <td className={'td-types'}>{elem.name}</td>
-        <td className={'td-types'}>{elem?.params?.length ? JSON.stringify(elem.params) : '--'}</td>
-      </tr>
-    )) : null);
+
+    const renderList = () => {
+      if (content.length) {
+        return content.map((elem) => <DisplayMethod method={elem} />);
+      }
+
+      return null;
+    };
+
+    const renderError = () => {
+      if (errorList) {
+        return errorList.map((elem) => (
+          <div style="color: red">
+            {
+              `${elem.kind} ${elem.name} has no memberof field or its value is empty, package name: ${elem.package}!!!!`
+            }
+          </div>
+        ));
+      }
+      return null;
+    };
+
     return () => (
       <div>
-        <h3>methods</h3>
-        <table>
-          <tr>
-            <th className={'th-params'}>name</th>
-            <th className={'th-params'}>params</th>
-          </tr>
-          { generateList() }
-        </table>
-        { errorList ? errorList.map((elem) => (
-          <div className={'error'}>{
-            `${elem.kind} ${elem.name} has no memberof field or its value is empty, package name: ${elem.package}!!!!`
-          }</div>
-        )) : null
-        }
+        <h2>methods</h2>
+        { renderList() }
+        { renderError() }
         <h2>{ route.params.package }</h2>
       </div>
     );

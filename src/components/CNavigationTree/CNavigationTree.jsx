@@ -3,7 +3,6 @@ import { usePackagesData } from '@/stores/packages';
 export const CNavigationTree = {
   name: 'CNavigationTree',
   setup() {
-    const store = usePackagesData();
     const {
       packages,
       getClassesByPackage,
@@ -12,7 +11,8 @@ export const CNavigationTree = {
       getComponentsByPackage,
       getMethodsByMemberOf,
       getMethodsWithError
-    } = store;
+    } = usePackagesData();
+
     const createRoute = (pack, section, childProps = {}) => ({
       name: section ? `package.${section}` : pack,
       params: {
@@ -20,78 +20,115 @@ export const CNavigationTree = {
         ...childProps
       }
     });
-    const generateClasses = (moduleName) => (getClassesByPackage(moduleName).length ? (
-      <div class="pack-list__entities">
-        <div>CLASSES</div>
-        {getClassesByPackage(moduleName).map((el) => (
-        <div className="pack-list__entities-item">
-          <router-link to={
-            createRoute(
-              moduleName,
-              'class',
-              { class: el.name, package: el.package }
-            )}>
-            {el.name}
+
+    const renderClasses = (moduleName) => {
+      if (getClassesByPackage(moduleName).length) {
+        return (
+          <div class="pack-list__entities">
+            <div>CLASSES</div>
+            {
+              getClassesByPackage(moduleName).map((el) => (
+              <div class="pack-list__entities-item">
+                <router-link to={
+                  createRoute(
+                    moduleName,
+                    'class',
+                    { class: el.name, package: el.package }
+                  )}>
+                  {el.name}
+                </router-link>
+              </div>
+              ))
+            }
+          </div>
+        );
+      }
+      return null;
+    };
+
+    const renderComponents = (moduleName) => {
+      if (getComponentsByPackage(moduleName).length) {
+        return (
+        <div class="pack-list__entities">
+          <div>COMPONENTS</div>
+          {getComponentsByPackage(moduleName).map((el) => (
+          <div class="pack-list__entities-item">
+            <router-link to={
+              createRoute(
+                moduleName,
+                'component',
+                { component: el.displayName, package: el.package }
+              )}>
+              {el.displayName}
+            </router-link>
+          </div>
+          ))
+          }
+        </div>
+        );
+      }
+      return null;
+    };
+
+    const displayErrorSign = (moduleName) => {
+      if (getMethodsWithError(moduleName).length) {
+        return <span style="color: red">✘</span>;
+      }
+      return null;
+    };
+    const renderMethods = (moduleName) => {
+      if (getMethodsByMemberOf(`module:${moduleName}`).length) {
+        return (
+          <div class="pack-list__entities">
+            <router-link to={createRoute(moduleName, 'functions')}>
+              METHODS
+            </router-link>
+            { displayErrorSign(moduleName) }
+          </div>
+        );
+      }
+      return null;
+    };
+
+    const renderConstants = (moduleName) => {
+      if (getConstantsByPackage(moduleName).length) {
+        return (
+        <div class="pack-list__entities">
+          <router-link to={createRoute(moduleName, 'constants')}>
+            CONSTANTS
           </router-link>
         </div>
-        ))
-        }
-      </div>
-    ) : null);
+        );
+      }
+      return null;
+    };
 
-    const generateComponents = (moduleName) => (getComponentsByPackage(moduleName).length ? (
-      <div class="pack-list__entities">
-        <div>COMPONENTS</div>
-        {getComponentsByPackage(moduleName).map((el) => (
-        <div className="pack-list__entities-item">
-          <router-link to={
-            createRoute(
-              moduleName,
-              'component',
-              { component: el.displayName, package: el.package }
-            ) }>
-            {el.displayName}
-          </router-link>
-        </div>
-        ))
-        }
-      </div>
-    ) : null);
-    const generateMethods = (moduleName) => (getMethodsByMemberOf(`module:${moduleName}`).length ? (
-      <div className="pack-list__entities">
-        <router-link to={createRoute(moduleName, 'functions')}>
-          METHODS
-        </router-link>
-        { getMethodsWithError(moduleName).length ? <div class={'error'}>!</div> : null}
-      </div>
-    ) : null);
-    const generateConstants = (moduleName) => (getConstantsByPackage(moduleName).length ? (
-      <div className="pack-list__entities">
-        <router-link to={ createRoute(moduleName, 'constants') }>
-          CONSTANTS
-        </router-link>
-      </div>
-    ) : null);
-    const generateTypes = (moduleName) => (getTypesByPackage(moduleName).length ? (
-      <div className="pack-list__entities">
-        <router-link to={ createRoute(moduleName, 'typedefs') }>
-          TYPES
-        </router-link>
-      </div>
-    ) : null);
+    const renderTypes = (moduleName) => {
+      if (getTypesByPackage(moduleName).length) {
+        return (
+          <div class="pack-list__entities">
+            <router-link to={ createRoute(moduleName, 'typedefs') }>
+              TYPES
+            </router-link>
+          </div>
+        );
+      }
+      return null;
+    };
 
-    const generateList = () => packages.map((pack) => (
+    const renderList = () => packages.map((pack) => (
       <div class="pack-list">
         <div class="pack-list__name">{pack.name}</div>
-          {generateClasses(pack.name)}
-          {generateComponents(pack.name)}
-          {generateConstants(pack.name)}
-          {generateTypes(pack.name)}
-          {generateMethods(pack.name)}
+          {renderClasses(pack.name)}
+          {renderComponents(pack.name)}
+          {renderConstants(pack.name)}
+          {renderTypes(pack.name)}
+          {renderMethods(pack.name)}
       </div>
     ));
+
     return () => (
-      generateList()
+      renderList()
     );
   }
 };
