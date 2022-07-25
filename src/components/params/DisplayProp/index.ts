@@ -1,0 +1,1 @@
+export { DisplayProp } from './DisplayProp';

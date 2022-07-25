@@ -1,0 +1,61 @@
+@use 'vuetify/lib/styles/main' with (
+  $spacers-steps: 24,
+);
+
+@use './prism';
+
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --c-screen-max-width: 1400px;
+  --c-screen-shift: calc((100vw - var(--c-screen-max-width)) / 2);
+
+  --c-navigation-drawer-width: 380px;
+  --c-app-bar-height: 64px;
+
+  --c-border-color: #{rgba(#000, .12)};
+}
+
+.v-application {
+  .article {
+    h1 {
+      margin-bottom: 3rem;
+
+      &:not(:first-child) {
+        margin-top: 3rem;
+      }
+    }
+
+    h2, h3, h4 {
+      margin-bottom: 1rem;
+
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
+    }
+
+    p, ul, ol, pre {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    pre {
+      border-radius: 4px;
+    }
+  }
+}
+

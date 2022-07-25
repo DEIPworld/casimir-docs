@@ -64,6 +64,10 @@ const getPkgReadme = (filePath) => {
   return '';
 };
 
+const getPkgType = (filePath) => {
+  return path.parse(path.parse(filePath).dir).name;
+}
+
 const saveJson = (name, json) => {
   fs.outputJsonSync(path.join('src', '.docs', `${name}.json`), json, { spaces: 2 });
 };
@@ -76,6 +80,7 @@ module.exports = {
   getInputFiles,
   getPkgInfo,
   getPkgReadme,
+  getPkgType,
   saveJson,
 
   repositories
